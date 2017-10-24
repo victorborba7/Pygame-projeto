@@ -1,4 +1,7 @@
 import pygame
+import sys
+import os
+import random
 
 #Variáveis iniciais
 
@@ -80,8 +83,8 @@ def game_tutorial():
         game_Display.blit(TextSurf, TextRect)
 
         largeTutorial = pygame.font.Font('freesansbold.ttf', 20)
-        TutorialSurf, TutorialRect = text_objects('Spacebar: Jump', largeText)
-        TutorialRect.center = (153, 200)
+        TutorialSurf, TutorialRect = text_objects('Spacebar/Up: Jump', largeText)
+        TutorialRect.center = (175, 200)
         game_Display.blit(TutorialSurf, TutorialRect)
 
         largeTutorial1 = pygame.font.Font('freesansbold.ttf', 20)
@@ -93,6 +96,7 @@ def game_tutorial():
 
         pygame.display.update()
         clock.tick(15)
+
 
 #Menu do jogo
 
@@ -109,11 +113,73 @@ def game_intro():
         TextRect.center = ((screen_width / 2), (150))
         game_Display.blit(TextSurf, TextRect)
 
-        button('Play', 125, 350, 100, 50, green, bright_green, quitgame)
+        button('Play', 125, 350, 100, 50, green, bright_green, game_loop)
         button('Quit', 350, 450, 100, 50, red, bright_red,  quitgame)
         button('Tutorial', 575, 350, 100, 50, blue, bright_blue, game_tutorial)
 
         pygame.display.update()
         clock.tick(15)
+
+#Tela de pontuação
+
+def game_high_score():
+    score = True
+    while score:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                quitgame()
+
+        game_Display.fill(white)
+        largeText = pygame.font.Font('freesansbold.ttf', 115)
+        TextSurf, TextRect = text_objects('Highscores', largeText)
+        TextRect.center = ((screen_width / 2), (150))
+        game_Display.blit(TextSurf, TextRect)
+
+        button('Menu', 125, 350, 100, 50, green, bright_green, game_intro)
+
+        pygame.display.update()
+        clock.tick(15)
+    
+
+#Jogo rodando
+
+def game_loop():
+    
+    #Cenário
+    
+    scene = ("1.jpg","2.jpg","3.jpg","4.jpg","5.jpg","6.jpg",)
+    scene_random = random.randint(0, len(scene) - 1)
+    scene = pygame.image.load(os.path.join("images", scene[scene_random]))
+    
+    #Personagem
+
+    
+    
+    #Timer
+
+    start_ticks = pygame.time.get_ticks()
+    
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                quitgame()
+        
+        seconds = str(int((pygame.time.get_ticks()-start_ticks)/100))
+        print(seconds)
+
+                
+        
+        game_Display.blit(scene, (0, 0))
+
+                
+        largeText = pygame.font.Font('freesansbold.ttf', 30)
+        TextSurf, TextRect = text_objects(seconds, largeText)
+        TextRect.center = (50, 30)
+        game_Display.blit(TextSurf, TextRect)
+        
+        
+        pygame.display.update()
+        
+                
 
 game_intro()
