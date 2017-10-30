@@ -16,6 +16,8 @@ bright_green = (0,200,0)
 blue = (0,0,255)
 bright_blue = (0,0,200)
 
+clock = pygame.time.Clock()
+
 screen_width = 800
 screen_height = 600
 
@@ -26,15 +28,15 @@ clock = pygame.time.Clock()
 
 #Funções para definições de texto
 
-def text_objects(text,font):
-    textSurface = font.render(text, True, black)
+def text_objects(text,font,color):
+    textSurface = font.render(text, True, color)
     return textSurface, textSurface.get_rect()
 
 #Função para mensagens
 
 def message_display(text):
     largeText = pygame.font.Font('freesansbold.ttf',115)
-    TextSurf, TextRect = text_objects(text, largeText)
+    TextSurf, TextRect = text_objects(text, largeText, black)
     TextRect.center = ((screen_width/2),(screen_height/2))
     screen.blit(TextSurf, TextRect)
 
@@ -57,7 +59,7 @@ def button(msg, pos_x, pos_y, width, high, initial_color, final_color, action=No
         pygame.draw.rect(game_Display, initial_color, (pos_x, pos_y, width, high))
 
     smallText = pygame.font.Font('freesansbold.ttf', 20)
-    textSurf, textRect = text_objects(msg, smallText)
+    textSurf, textRect = text_objects(msg, smallText, black)
     textRect.center = ((pos_x + (width / 2)), (pos_y + (high / 2)))
     game_Display.blit(textSurf, textRect)
 
@@ -78,17 +80,17 @@ def game_tutorial():
 
         game_Display.fill(white)
         largeText = pygame.font.Font('freesansbold.ttf', 30)
-        TextSurf, TextRect = text_objects('Tutorial', largeText)
+        TextSurf, TextRect = text_objects('Tutorial', largeText, black)
         TextRect.center = (90, 100)
         game_Display.blit(TextSurf, TextRect)
 
         largeTutorial = pygame.font.Font('freesansbold.ttf', 20)
-        TutorialSurf, TutorialRect = text_objects('Spacebar/Up: Jump', largeText)
+        TutorialSurf, TutorialRect = text_objects('Spacebar/Up: Jump', largeText, black)
         TutorialRect.center = (175, 200)
         game_Display.blit(TutorialSurf, TutorialRect)
 
         largeTutorial1 = pygame.font.Font('freesansbold.ttf', 20)
-        Tutorial1Surf, Tutorial1Rect = text_objects('Esc: Pause', largeText)
+        Tutorial1Surf, Tutorial1Rect = text_objects('Esc: Pause', largeText, black)
         Tutorial1Rect.center = (116, 300)
         game_Display.blit(Tutorial1Surf, Tutorial1Rect)
 
@@ -109,7 +111,7 @@ def game_intro():
 
         game_Display.fill(white)
         largeText = pygame.font.Font('freesansbold.ttf', 115)
-        TextSurf, TextRect = text_objects('Ninjassauro', largeText)
+        TextSurf, TextRect = text_objects('Ninjassauro', largeText, black)
         TextRect.center = ((screen_width / 2), (150))
         game_Display.blit(TextSurf, TextRect)
 
@@ -131,7 +133,7 @@ def game_high_score():
 
         game_Display.fill(white)
         largeText = pygame.font.Font('freesansbold.ttf', 115)
-        TextSurf, TextRect = text_objects('Highscores', largeText)
+        TextSurf, TextRect = text_objects('Highscores', largeText, black)
         TextRect.center = ((screen_width / 2), (150))
         game_Display.blit(TextSurf, TextRect)
 
@@ -144,20 +146,27 @@ def game_high_score():
 #Jogo rodando
 
 def game_loop():
+
+    #Música
+    pygame.mixer.music.load("songs/Naruto.ogg")
+    pygame.mixer.music.play()
     
     #Cenário
     
-    scene = ("1.jpg","2.jpg","3.jpg","4.jpg","5.jpg","6.jpg",)
-    scene_random = random.randint(0, len(scene) - 1)
-    scene = pygame.image.load(os.path.join("images", scene[scene_random]))
-    
+    scene = ("1.jpg","2.jpg","3.jpg","4.jpg","5.jpg","6.jpg")
+    scene_count = 0
+    scene = pygame.image.load(os.path.join("images", scene[scene_count]))
+
     #Personagem
 
-    
+    dino = ("raptor1.png", "raptor2.png", "raptor3.png", "raptor4.png", "raptor5.png", "raptor6.png", "raptor7.png", "raptor8.png")
+    dino_count = 0
+    dino = pygame.image.load(os.path.join("dino", dino[dino_count]))
     
     #Timer
 
     start_ticks = pygame.time.get_ticks()
+        
     
     while True:
         for event in pygame.event.get():
@@ -165,20 +174,42 @@ def game_loop():
                 quitgame()
         
         seconds = str(int((pygame.time.get_ticks()-start_ticks)/100))
-        print(seconds)
+        points = int(seconds)
 
-                
+        #Levels
+
+        if points%100 == 0 and points > 0:
+            scene = ("1.jpg","2.jpg","3.jpg","4.jpg","5.jpg","6.jpg")
+            scene_count += 1
+            if scene_count > 5:
+                scene_count = 0
+            scene = pygame.image.load(os.path.join("images", scene[scene_count]))
+
+        #Movimentos
+
+        dino = ("raptor1.png", "raptor2.png", "raptor3.png", "raptor4.png", "raptor5.png", "raptor6.png", "raptor7.png", "raptor8.png")
+        dino_count += 1
+        if dino_count > 7:
+            dino_count = 0
+        dino = pygame.image.load(os.path.join("dino", dino[dino_count]))
         
         game_Display.blit(scene, (0, 0))
+        game_Display.blit(dino, (0, 400))
 
-                
-        largeText = pygame.font.Font('freesansbold.ttf', 30)
-        TextSurf, TextRect = text_objects(seconds, largeText)
-        TextRect.center = (50, 30)
-        game_Display.blit(TextSurf, TextRect)
+        if scene_count == 5:
+            largeText = pygame.font.Font('freesansbold.ttf', 30)
+            TextSurf, TextRect = text_objects(seconds, largeText, white)
+            TextRect.center = (50, 30)
+            game_Display.blit(TextSurf, TextRect)
+        else:
+            largeText = pygame.font.Font('freesansbold.ttf', 30)
+            TextSurf, TextRect = text_objects(seconds, largeText, black)
+            TextRect.center = (50, 30)
+            game_Display.blit(TextSurf, TextRect)
         
         
         pygame.display.update()
+        clock.tick(10)
         
                 
 
