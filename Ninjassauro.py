@@ -73,12 +73,15 @@ def quitgame():
 
 def game_tutorial():
     tutorial = True
+    scene = ("1.jpg","2.jpg","3.jpg","4.jpg","5.jpg","6.jpg")
+    scene_random = random.randint(0,(len(scene) - 1))
+    scene = pygame.image.load(os.path.join("images", scene[scene_random]))
     while tutorial:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 quitgame()
 
-        game_Display.fill(white)
+        game_Display.blit(scene ,(0,0))
         largeText = pygame.font.Font('freesansbold.ttf', 30)
         TextSurf, TextRect = text_objects('Tutorial', largeText, black)
         TextRect.center = (90, 100)
@@ -104,12 +107,17 @@ def game_tutorial():
 
 def game_intro():
     intro = True
+    #Cenário
+    
+    scene = ("1.jpg","2.jpg","3.jpg","4.jpg","5.jpg","6.jpg")
+    scene_random = random.randint(0,(len(scene) - 1))
+    scene = pygame.image.load(os.path.join("images", scene[scene_random]))
     while intro:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 quitgame()
 
-        game_Display.fill(white)
+        game_Display.blit(scene, (0,0))
         largeText = pygame.font.Font('freesansbold.ttf', 115)
         TextSurf, TextRect = text_objects('Ninjassauro', largeText, black)
         TextRect.center = ((screen_width / 2), (150))
@@ -147,6 +155,11 @@ def game_high_score():
 
 def game_loop():
 
+    #Váriaveis dino
+
+    y = 400
+    jump = 0
+
     #Música
     pygame.mixer.music.load("songs/Naruto.ogg")
     pygame.mixer.music.play()
@@ -172,7 +185,15 @@ def game_loop():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 quitgame()
-        
+
+            #if event.type == pygame.KEYDOWN:
+
+                #Pulo
+                
+                #if event.key == pygame.K_SPACE:
+                    
+                
+
         seconds = str(int((pygame.time.get_ticks()-start_ticks)/100))
         points = int(seconds)
 
@@ -194,8 +215,7 @@ def game_loop():
         dino = pygame.image.load(os.path.join("dino", dino[dino_count]))
         
         game_Display.blit(scene, (0, 0))
-        game_Display.blit(dino, (0, 400))
-
+        game_Display.blit(dino, (0, y))
         if scene_count == 5:
             largeText = pygame.font.Font('freesansbold.ttf', 30)
             TextSurf, TextRect = text_objects(seconds, largeText, white)
