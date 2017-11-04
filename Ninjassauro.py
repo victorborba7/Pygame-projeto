@@ -130,7 +130,7 @@ def game_intro():
         pygame.display.update()
         clock.tick(15)
 
-#Tela de pontuação
+#Tela de pontuação/game over
 
 def game_high_score():
     score = True
@@ -161,14 +161,20 @@ def game_loop():
     jump = 0
 
     #Música
-    pygame.mixer.music.load("songs/Naruto.ogg")
-    pygame.mixer.music.play()
+    pygame.mixer.Channel(0).play(pygame.mixer.Sound("songs/Naruto.ogg"))
     
     #Cenário
     
     scene = ("1.jpg","2.jpg","3.jpg","4.jpg","5.jpg","6.jpg")
     scene_count = 0
     scene = pygame.image.load(os.path.join("images", scene[scene_count]))
+
+    floor = ("floor1.jpg","floor2.jpg","floor3.jpg","floor4.jpg","floor5.jpg","floor6.jpg")
+    floor_count = 0
+    floor = pygame.image.load(os.path.join("floor", floor[floor_count]))
+    x_floor = 0
+    y_floor = 473
+    floor_speed = 10
 
     #Personagem
 
@@ -178,6 +184,7 @@ def game_loop():
     
     #Timer
 
+    timer = 10
     start_ticks = pygame.time.get_ticks()
         
     
@@ -186,13 +193,13 @@ def game_loop():
             if event.type == pygame.QUIT:
                 quitgame()
 
-            #if event.type == pygame.KEYDOWN:
+            if event.type == pygame.KEYDOWN:
 
                 #Pulo
                 
-                #if event.key == pygame.K_SPACE:
-                    
-                
+                if event.key == pygame.K_SPACE or event.key == pygame.K_UP:
+                    pygame.mixer.Channel(1).play(pygame.mixer.Sound('sounds\jump.ogg'))
+                    jump = 10
 
         seconds = str(int((pygame.time.get_ticks()-start_ticks)/100))
         points = int(seconds)
@@ -205,17 +212,39 @@ def game_loop():
             if scene_count > 5:
                 scene_count = 0
             scene = pygame.image.load(os.path.join("images", scene[scene_count]))
+            
+            floor = ("floor1.jpg","floor2.jpg","floor3.jpg","floor4.jpg","floor5.jpg","floor6.jpg")
+            floor_count += 1
+            if floor_count > 5:
+                floor_count = 0
+            if floor_count == 5:
+                y_floor = 458
+            else:
+                y_floor = 473
+            floor = pygame.image.load(os.path.join("floor", floor[floor_count]))
 
-        #Movimentos
+        #Movimentos do dino
 
         dino = ("raptor1.png", "raptor2.png", "raptor3.png", "raptor4.png", "raptor5.png", "raptor6.png", "raptor7.png", "raptor8.png")
         dino_count += 1
         if dino_count > 7:
             dino_count = 0
         dino = pygame.image.load(os.path.join("dino", dino[dino_count]))
+
+        y -= jump
+        
+        #Movimentos do cenário
         
         game_Display.blit(scene, (0, 0))
+        
+        rel_x_floor = x_floor % floor.get_rect().width
+        game_Display.blit(floor, (rel_x_floor - floor.get_rect().width, y_floor))
+        if (rel_x_floor < 800):
+            game_Display.blit(floor, (rel_x_floor, y_floor))
+        x_floor -= floor_speed
+        
         game_Display.blit(dino, (0, y))
+        
         if scene_count == 5:
             largeText = pygame.font.Font('freesansbold.ttf', 30)
             TextSurf, TextRect = text_objects(seconds, largeText, white)
@@ -229,7 +258,7 @@ def game_loop():
         
         
         pygame.display.update()
-        clock.tick(10)
+        clock.tick(timer)
         
                 
 
