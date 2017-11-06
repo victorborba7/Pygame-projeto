@@ -163,7 +163,17 @@ def game_loop():
     #Váriaveis dino
 
     y = 400
+    x = 0
+    y_mudar = 0
     jump = 0
+    deslocar = False
+
+    #Variáveis dos inimigos
+    x_triceratops =  600
+    x_estego = 600
+    x_ptero = 600
+    y_inimigo_terrestre = 350
+    y_inimigo_ar = 125
 
     #Música
     pygame.mixer.Channel(0).play(pygame.mixer.Sound("songs/Naruto.ogg"))
@@ -187,9 +197,11 @@ def game_loop():
     dino_count = 0
     dino = pygame.image.load(os.path.join("dino", dino[dino_count]))
 
-    #Inimigos
+    #Estegossauro
     
-    enemy_x = 500
+    estego = ("estegossauro1.png", "estegossauro2.png", "estegossauro3.png", "estegossauro4.png", "estegossauro5.png", "estegossauro6.png", "estegossauro7.png", "estegossauro8.png", "estegossauro9.png", "estegossauro10.png", "estegossauro11.png", "estegossauro12.png")
+    estego_count = 0
+    estego = pygame.image.load(os.path.join("enemies/Estegossauro", estego[estego_count]))
     
     #Triceratops
 
@@ -205,26 +217,39 @@ def game_loop():
         
     #Timer
 
-    timer = 10
+    timer = 15
     start_ticks = pygame.time.get_ticks()
         
     
     while True:
+        seconds = str(int((pygame.time.get_ticks()-start_ticks)/100))
+        points = int(seconds)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 quitgame()
-
+            elif event.type == pygame.USEREVENT + 1:
+                y += y_mudar
+                if y < 200:
+                    y_mudar = 5
+                elif y > 400:
+                    y = 400
+                    y_mudar = 0
+                    deslocar = False
+                    pygame.time.set_timer(pygame.USEREVENT + 1, 0)
+            elif event.type == pygame.USEREVENT + 1:
+                x_inimigo -= min(10 + (points / 50), 20)
             if event.type == pygame.KEYDOWN:
 
                 #Pulo
                 
                 if event.key == pygame.K_SPACE or event.key == pygame.K_UP:
                     pygame.mixer.Channel(1).play(pygame.mixer.Sound('sounds\jump.ogg'))
-                    jump = 10
-                    game_high_score(seconds)
+                    if deslocar == False:
+                        deslocar = True
+                        y_mudar = -3
+                        pygame.time.set_timer(pygame.USEREVENT +1, 5)
+        y += y_mudar     
 
-        seconds = str(int((pygame.time.get_ticks()-start_ticks)/100))
-        points = int(seconds)
 
         #Levels
 
@@ -252,9 +277,13 @@ def game_loop():
         if dino_count > 7:
             dino_count = 0
         dino = pygame.image.load(os.path.join("dino", dino[dino_count]))
+        rectDino = dino.get_rect()
+        rectDino.width -= 45
+        rectDino.height -= 40
+        rectDino.left, rectDino.top = x, y
+        game_Display.blit(dino, rectDino)
 
-        y -= jump
-
+        #Movimento dos Inimigos
         #Movimentos do triceratops
 
         triceratops = ("triceratops1.png","triceratops2.png","triceratops3.png","triceratops4.png","triceratops5.png","triceratops6.png","triceratops7.png","triceratops8.png","triceratops9.png","triceratops10.png","triceratops11.png","triceratops12.png",)
@@ -262,6 +291,9 @@ def game_loop():
         if triceratops_count > 11:
             triceratops_count = 0
         triceratops = pygame.image.load(os.path.join("enemies/Triceratops", triceratops[triceratops_count]))
+        rectTriceratops = triceratops.get_rect()
+        rectTriceratops.left, rectTriceratops.top = x_triceratops, y_inimigo_terrestre
+        
 
         #Movimentos do Ptero
 
@@ -270,6 +302,19 @@ def game_loop():
         if ptero_count > 8:
             ptero_count = 0
         ptero = pygame.image.load(os.path.join("enemies/Ptero", ptero[ptero_count]))
+        rectPtero = ptero.get_rect()
+        rectPtero.left, rectPtero.top = x_ptero, y_inimigo_ar
+
+        #Movimentos do Estegossauro
+
+        estego = ("estegossauro1.png", "estegossauro2.png", "estegossauro3.png", "estegossauro4.png", "estegossauro5.png", "estegossauro6.png", "estegossauro7.png", "estegossauro8.png", "estegossauro9.png", "estegossauro10.png", "estegossauro11.png", "estegossauro12.png")
+        estego_count += 1
+        if estego_count > 11:
+            estego_count = 0
+        estego = pygame.image.load(os.path.join("enemies/Estegossauro", estego[estego_count]))
+        rectEstego = estego.get_rect()
+        rectEstego.left, rectEstego.top = x_estego, y_inimigo_terrestre
+
         
         #Movimentos do cenário
         
@@ -281,11 +326,13 @@ def game_loop():
             game_Display.blit(floor, (rel_x_floor, y_floor))
         x_floor -= floor_speed
         
-        game_Display.blit(dino, (0, y))
+        game_Display.blit(dino, rectDino)
 
-        game_Display.blit(triceratops, (enemy_x, 360))
+        game_Display.blit(triceratops, rectTriceratops)
+        
+        game_Display.blit(ptero, rectPtero)
 
-        game_Display.blit(ptero, (enemy_x, 160))
+        game_Display.blit(estego, rectEstego)
         
         if scene_count == 5:
             largeText = pygame.font.Font('freesansbold.ttf', 30)
