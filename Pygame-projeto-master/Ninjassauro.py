@@ -221,9 +221,10 @@ def game_loop():
         
     #Timer
 
-    timer = 15
+    timer = 20
     start_ticks = pygame.time.get_ticks()
-        
+    dinossauro = random.randint(0,1)
+    dinossauro_3 = random.randint(0,10)
     
     while True:
         seconds = str(int((pygame.time.get_ticks()-start_ticks)/100))
@@ -344,19 +345,47 @@ def game_loop():
                 game_Display.blit(estego, (x_estego, y_estego))
             x_estego -= estego_speed
         elif points >= 200 and points < 400:
-            rel_x_ptero = x_ptero
-            game_Display.blit(ptero, (x_ptero - ptero.get_rect().width, y_inimigo_ar))
-            if (rel_x_ptero == 0):
-                x_ptero = 900
-                game_Display.blit(ptero, (x_ptero, y_inimigo_ar))
-            x_ptero -= ptero_speed
+            if dinossauro == 0:
+                rel_x_ptero = x_ptero
+                game_Display.blit(ptero, (x_ptero - ptero.get_rect().width, y_inimigo_ar))
+                if (rel_x_ptero == 0):
+                    x_ptero = 900
+                    dinossauro = random.randint(0,1)
+                    game_Display.blit(ptero, (x_ptero, y_inimigo_ar))
+                x_ptero -= ptero_speed
+            else:
+                rel_x_estego = x_estego
+                game_Display.blit(estego, (x_estego - estego.get_rect().width, y_estego))
+                if (rel_x_estego == 0):
+                    x_estego = 900
+                    dinossauro = random.randint(0,1)
+                    game_Display.blit(estego, (x_estego, y_estego))
+                x_estego -= estego_speed
         elif points >= 400:
-            rel_x_triceratops = x_triceratops
-            game_Display.blit(triceratops, (x_triceratops - triceratops.get_rect().width, y_trice))
-            if (rel_x_triceratops == 0):
-                x_triceratops = 900
-                game_Display.blit(triceratops, (x_triceratops, y_trice))
-            x_triceratops -= triceratops_speed
+            if dinossauro_3 >= 0 and dinossauro_3 < 5:
+                rel_x_estego = x_estego
+                game_Display.blit(estego, (x_estego - estego.get_rect().width, y_estego))
+                if (rel_x_estego == 0):
+                    x_estego = 900
+                    dinossauro_3 = random.randint(0,10)
+                    game_Display.blit(estego, (x_estego, y_estego))
+                x_estego -= estego_speed
+            elif dinossauro_3 >= 5 and dinossauro_3 < 8:
+                rel_x_ptero = x_ptero
+                game_Display.blit(ptero, (x_ptero - ptero.get_rect().width, y_inimigo_ar))
+                if (rel_x_ptero == 0):
+                    x_ptero = 900
+                    dinossauro_3 = random.randint(0,10)
+                    game_Display.blit(ptero, (x_ptero, y_inimigo_ar))
+                x_ptero -= ptero_speed
+            else:
+                rel_x_triceratops = x_triceratops
+                game_Display.blit(triceratops, (x_triceratops - triceratops.get_rect().width, y_trice))
+                if (rel_x_triceratops == 0):
+                    x_triceratops = 900
+                    dinossauro_3 = random.randint(0,10)
+                    game_Display.blit(triceratops, (x_triceratops, y_trice))
+                x_triceratops -= triceratops_speed   
 
         if scene_count == 5:
             largeText = pygame.font.Font('freesansbold.ttf', 30)
