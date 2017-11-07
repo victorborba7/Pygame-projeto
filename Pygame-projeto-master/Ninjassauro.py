@@ -203,6 +203,16 @@ def game_intro():
         button('Quit', 350, 450, 100, 50, red, bright_red,  quitgame)
         button('Tutorial', 575, 350, 100, 50, blue, bright_blue, game_tutorial)
 
+        #Créditos
+        largeText = pygame.font.Font("04B.ttf", 10)
+        TextSurf, TextRect = text_objects('Por Juan Juan e Victor borba', largeText, white)
+        TextRect.center = ((screen_width / 2), 560)
+        game_Display.blit(TextSurf, TextRect)
+        largeText = pygame.font.Font("04B.ttf", 5)
+        TextSurf, TextRect = text_objects('Todos os direitos reservados (ou nao)', largeText, white)
+        TextRect.center = ((screen_width / 2), 570)
+        game_Display.blit(TextSurf, TextRect)
+
         pygame.display.update()
         clock.tick(15)
 
