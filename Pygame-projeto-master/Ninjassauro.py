@@ -21,6 +21,9 @@ clock = pygame.time.Clock()
 screen_width = 800
 screen_height = 600
 
+points = 0
+
+pause = True
 
 game_Display = pygame.display.set_mode((screen_width,screen_height))
 pygame.display.set_caption('Ninjassauro')
@@ -82,22 +85,81 @@ def game_tutorial():
                 quitgame()
 
         game_Display.blit(scene ,(0,0))
-        largeText = pygame.font.Font('freesansbold.ttf', 30)
-        TextSurf, TextRect = text_objects('Tutorial', largeText, black)
-        TextRect.center = (90, 100)
-        game_Display.blit(TextSurf, TextRect)
 
-        largeTutorial = pygame.font.Font('freesansbold.ttf', 20)
-        TutorialSurf, TutorialRect = text_objects('Spacebar/Up: Jump', largeText, black)
-        TutorialRect.center = (175, 200)
-        game_Display.blit(TutorialSurf, TutorialRect)
+        if scene_random == 5:
+            largeText = pygame.font.Font('freesansbold.ttf', 30)
+            TextSurf, TextRect = text_objects('Tutorial', largeText, white)
+            TextRect.center = (90, 100)
+            game_Display.blit(TextSurf, TextRect)
 
-        largeTutorial1 = pygame.font.Font('freesansbold.ttf', 20)
-        Tutorial1Surf, Tutorial1Rect = text_objects('Esc: Pause', largeText, black)
-        Tutorial1Rect.center = (116, 300)
-        game_Display.blit(Tutorial1Surf, Tutorial1Rect)
+            largeTutorial = pygame.font.Font('freesansbold.ttf', 20)
+            TutorialSurf, TutorialRect = text_objects('Spacebar/Up: Jump', largeText, white)
+            TutorialRect.center = (175, 200)
+            game_Display.blit(TutorialSurf, TutorialRect)
+
+            largeTutorial1 = pygame.font.Font('freesansbold.ttf', 20)
+            Tutorial1Surf, Tutorial1Rect = text_objects('Esc: Pause', largeText, white)
+            Tutorial1Rect.center = (116, 300)
+            game_Display.blit(Tutorial1Surf, Tutorial1Rect)
+        else:
+            largeText = pygame.font.Font('freesansbold.ttf', 30)
+            TextSurf, TextRect = text_objects('Tutorial', largeText, black)
+            TextRect.center = (90, 100)
+            game_Display.blit(TextSurf, TextRect)
+
+            largeTutorial = pygame.font.Font('freesansbold.ttf', 20)
+            TutorialSurf, TutorialRect = text_objects('Spacebar/Up: Jump', largeText, black)
+            TutorialRect.center = (175, 200)
+            game_Display.blit(TutorialSurf, TutorialRect)
+
+            largeTutorial1 = pygame.font.Font('freesansbold.ttf', 20)
+            Tutorial1Surf, Tutorial1Rect = text_objects('Esc: Pause', largeText, black)
+            Tutorial1Rect.center = (116, 300)
+            game_Display.blit(Tutorial1Surf, Tutorial1Rect)
+
 
         button('Back', 30, 500, 100, 50, green, bright_green, game_intro)
+
+        pygame.display.update()
+        clock.tick(15)
+#Saindo do pause
+
+def unpause():
+    global pause
+    pause = False
+
+#Pause
+
+def paused():
+    #Cenário
+    
+    scene = ("1.jpg","2.jpg","3.jpg","4.jpg","5.jpg","6.jpg")
+    scene_random = random.randint(0,(len(scene) - 1))
+    scene = pygame.image.load(os.path.join("images", scene[scene_random]))
+    while pause:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                quitgame()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    unpause()
+
+        if scene_random == 5:
+            game_Display.blit(scene, (0,0))
+            largeText = pygame.font.Font('freesansbold.ttf', 115)
+            TextSurf, TextRect = text_objects('Paused', largeText, white)
+            TextRect.center = ((screen_width / 2), (150))
+            game_Display.blit(TextSurf, TextRect)
+        else:
+            game_Display.blit(scene, (0,0))
+            largeText = pygame.font.Font('freesansbold.ttf', 115)
+            TextSurf, TextRect = text_objects('Paused', largeText, black)
+            TextRect.center = ((screen_width / 2), (150))
+            game_Display.blit(TextSurf, TextRect)
+
+        button('Continue', 125, 350, 100, 50, green, bright_green, unpause)
+        button('Quit', 350, 450, 100, 50, red, bright_red,  quitgame)
+        button('Menu', 575, 350, 100, 50, blue, bright_blue, game_intro)
 
         pygame.display.update()
         clock.tick(15)
@@ -117,11 +179,18 @@ def game_intro():
             if event.type == pygame.QUIT:
                 quitgame()
 
-        game_Display.blit(scene, (0,0))
-        largeText = pygame.font.Font('freesansbold.ttf', 115)
-        TextSurf, TextRect = text_objects('Ninjassauro', largeText, black)
-        TextRect.center = ((screen_width / 2), (150))
-        game_Display.blit(TextSurf, TextRect)
+        if scene_random == 5:
+            game_Display.blit(scene, (0,0))
+            largeText = pygame.font.Font('freesansbold.ttf', 115)
+            TextSurf, TextRect = text_objects('Ninjassauro', largeText, white)
+            TextRect.center = ((screen_width / 2), (150))
+            game_Display.blit(TextSurf, TextRect)
+        else:
+            game_Display.blit(scene, (0,0))
+            largeText = pygame.font.Font('freesansbold.ttf', 115)
+            TextSurf, TextRect = text_objects('Ninjassauro', largeText, black)
+            TextRect.center = ((screen_width / 2), (150))
+            game_Display.blit(TextSurf, TextRect)
 
         button('Play', 125, 350, 100, 50, green, bright_green, game_loop)
         button('Quit', 350, 450, 100, 50, red, bright_red,  quitgame)
@@ -134,21 +203,37 @@ def game_intro():
 
 def game_high_score(points):
     score = True
+    #Cenário
+    
+    scene = ("1.jpg","2.jpg","3.jpg","4.jpg","5.jpg","6.jpg")
+    scene_random = random.randint(0,(len(scene) - 1))
+    scene = pygame.image.load(os.path.join("images", scene[scene_random]))
+    
     while score:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 quitgame()
 
-        game_Display.fill(white)
-        largeText = pygame.font.Font('freesansbold.ttf', 115)
-        TextSurf, TextRect = text_objects('Game Over', largeText, black)
-        TextRect.center = ((screen_width / 2), (150))
-        game_Display.blit(TextSurf, TextRect)
+        if scene_random == 5:
+            largeText = pygame.font.Font('freesansbold.ttf', 115)
+            TextSurf, TextRect = text_objects('Game Over', largeText, white)
+            TextRect.center = ((screen_width / 2), (150))
+            game_Display.blit(TextSurf, TextRect)
 
-        largeText = pygame.font.Font('freesansbold.ttf', 115)
-        TextSurf, TextRect = text_objects(points, largeText, black)
-        TextRect.center = ((screen_width / 2), (450))
-        game_Display.blit(TextSurf, TextRect)
+            largeText = pygame.font.Font('freesansbold.ttf', 115)
+            TextSurf, TextRect = text_objects(points, largeText, white)
+            TextRect.center = ((screen_width / 2), (450))
+            game_Display.blit(TextSurf, TextRect)
+        else:
+            largeText = pygame.font.Font('freesansbold.ttf', 115)
+            TextSurf, TextRect = text_objects('Game Over', largeText, black)
+            TextRect.center = ((screen_width / 2), (150))
+            game_Display.blit(TextSurf, TextRect)
+
+            largeText = pygame.font.Font('freesansbold.ttf', 115)
+            TextSurf, TextRect = text_objects(points, largeText, black)
+            TextRect.center = ((screen_width / 2), (450))
+            game_Display.blit(TextSurf, TextRect)
 
         button('Menu', 125, 350, 100, 50, green, bright_green, game_intro)
 
@@ -159,6 +244,8 @@ def game_high_score(points):
 #Jogo rodando
 
 def game_loop():
+
+    global pause
 
     #Váriaveis dino
 
@@ -242,6 +329,9 @@ def game_loop():
                     deslocar = False
                     pygame.time.set_timer(pygame.USEREVENT + 1, 0)
             if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    pause = True
+                    paused()
 
                 #Pulo
                 
