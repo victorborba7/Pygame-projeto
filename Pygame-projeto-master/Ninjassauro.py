@@ -15,13 +15,20 @@ green = (0,255,0)
 bright_green = (0,200,0)
 blue = (0,0,255)
 bright_blue = (0,0,200)
+laranja = (255, 83, 13)
+fonte1_p = pygame.font.Font("babyblocks.ttf", 20)
+fonte1_m = pygame.font.Font("babyblocks.ttf", 30)
+fonte1_g = pygame.font.Font("babyblocks.ttf", 50)
+fonte2_p = pygame.font.Font('04B.ttf', 20)
+fonte2_m = pygame.font.Font('04B.ttf', 30)
+fonte2_g = pygame.font.Font('04B.ttf', 50)
 
 clock = pygame.time.Clock()
 
 screen_width = 800
 screen_height = 600
 
-points = 0
+max_points = 0
 
 pause = True
 
@@ -38,7 +45,7 @@ def text_objects(text,font,color):
 #Função para mensagens
 
 def message_display(text):
-    largeText = pygame.font.Font('freesansbold.ttf',115)
+    largeText = pygame.font.Font("babyblocks.ttf",115)
     TextSurf, TextRect = text_objects(text, largeText, black)
     TextRect.center = ((screen_width/2),(screen_height/2))
     screen.blit(TextSurf, TextRect)
@@ -61,7 +68,7 @@ def button(msg, pos_x, pos_y, width, high, initial_color, final_color, action=No
     else:
         pygame.draw.rect(game_Display, initial_color, (pos_x, pos_y, width, high))
 
-    smallText = pygame.font.Font('freesansbold.ttf', 20)
+    smallText = pygame.font.Font("babyblocks.ttf", 20)
     textSurf, textRect = text_objects(msg, smallText, black)
     textRect.center = ((pos_x + (width / 2)), (pos_y + (high / 2)))
     game_Display.blit(textSurf, textRect)
@@ -87,34 +94,34 @@ def game_tutorial():
         game_Display.blit(scene ,(0,0))
 
         if scene_random == 5:
-            largeText = pygame.font.Font('freesansbold.ttf', 30)
+            largeText = pygame.font.Font('04B.ttf', 30)
             TextSurf, TextRect = text_objects('Tutorial', largeText, white)
-            TextRect.center = (90, 100)
+            TextRect.center = (110, 100)
             game_Display.blit(TextSurf, TextRect)
 
-            largeTutorial = pygame.font.Font('freesansbold.ttf', 20)
+            largeTutorial = pygame.font.Font('04B.ttf', 20)
             TutorialSurf, TutorialRect = text_objects('Spacebar/Up: Jump', largeText, white)
-            TutorialRect.center = (175, 200)
+            TutorialRect.center = (230, 200)
             game_Display.blit(TutorialSurf, TutorialRect)
 
-            largeTutorial1 = pygame.font.Font('freesansbold.ttf', 20)
+            largeTutorial1 = pygame.font.Font('04B.ttf', 20)
             Tutorial1Surf, Tutorial1Rect = text_objects('Esc: Pause', largeText, white)
-            Tutorial1Rect.center = (116, 300)
+            Tutorial1Rect.center = (140, 300)
             game_Display.blit(Tutorial1Surf, Tutorial1Rect)
         else:
-            largeText = pygame.font.Font('freesansbold.ttf', 30)
+            largeText = pygame.font.Font('04B.ttf', 30)
             TextSurf, TextRect = text_objects('Tutorial', largeText, black)
-            TextRect.center = (90, 100)
+            TextRect.center = (110, 100)
             game_Display.blit(TextSurf, TextRect)
 
-            largeTutorial = pygame.font.Font('freesansbold.ttf', 20)
+            largeTutorial = pygame.font.Font('04B.ttf', 20)
             TutorialSurf, TutorialRect = text_objects('Spacebar/Up: Jump', largeText, black)
-            TutorialRect.center = (175, 200)
+            TutorialRect.center = (230, 200)
             game_Display.blit(TutorialSurf, TutorialRect)
 
-            largeTutorial1 = pygame.font.Font('freesansbold.ttf', 20)
+            largeTutorial1 = pygame.font.Font('04B.ttf', 20)
             Tutorial1Surf, Tutorial1Rect = text_objects('Esc: Pause', largeText, black)
-            Tutorial1Rect.center = (116, 300)
+            Tutorial1Rect.center = (140, 300)
             game_Display.blit(Tutorial1Surf, Tutorial1Rect)
 
 
@@ -146,13 +153,13 @@ def paused():
 
         if scene_random == 5:
             game_Display.blit(scene, (0,0))
-            largeText = pygame.font.Font('freesansbold.ttf', 115)
+            largeText = pygame.font.Font('04B.ttf', 115)
             TextSurf, TextRect = text_objects('Paused', largeText, white)
             TextRect.center = ((screen_width / 2), (150))
             game_Display.blit(TextSurf, TextRect)
         else:
             game_Display.blit(scene, (0,0))
-            largeText = pygame.font.Font('freesansbold.ttf', 115)
+            largeText = pygame.font.Font('04B.ttf', 115)
             TextSurf, TextRect = text_objects('Paused', largeText, black)
             TextRect.center = ((screen_width / 2), (150))
             game_Display.blit(TextSurf, TextRect)
@@ -181,14 +188,14 @@ def game_intro():
 
         if scene_random == 5:
             game_Display.blit(scene, (0,0))
-            largeText = pygame.font.Font('freesansbold.ttf', 115)
-            TextSurf, TextRect = text_objects('Ninjassauro', largeText, white)
+            largeText = pygame.font.Font("04B.ttf", 50)
+            TextSurf, TextRect = text_objects('NINJASSAURO', largeText, laranja)
             TextRect.center = ((screen_width / 2), (150))
             game_Display.blit(TextSurf, TextRect)
         else:
             game_Display.blit(scene, (0,0))
-            largeText = pygame.font.Font('freesansbold.ttf', 115)
-            TextSurf, TextRect = text_objects('Ninjassauro', largeText, black)
+            largeText = pygame.font.Font("04B.ttf", 50)
+            TextSurf, TextRect = text_objects('NINJASSAURO', largeText, laranja)
             TextRect.center = ((screen_width / 2), (150))
             game_Display.blit(TextSurf, TextRect)
 
@@ -201,7 +208,8 @@ def game_intro():
 
 #Tela de pontuação/game over
 
-def game_high_score(points):
+def game_high_score(distancia):
+    distancia_real = (int(distancia)//10)
     score = True
     #Cenário
     
@@ -215,27 +223,28 @@ def game_high_score(points):
                 quitgame()
 
         if scene_random == 5:
-            largeText = pygame.font.Font('freesansbold.ttf', 115)
-            TextSurf, TextRect = text_objects('Game Over', largeText, white)
+            largeText = pygame.font.Font('04B.ttf', 60)
+            TextSurf, TextRect = text_objects('Game Over', largeText, red)
             TextRect.center = ((screen_width / 2), (150))
             game_Display.blit(TextSurf, TextRect)
-
-            largeText = pygame.font.Font('freesansbold.ttf', 115)
-            TextSurf, TextRect = text_objects(points, largeText, white)
-            TextRect.center = ((screen_width / 2), (450))
-            game_Display.blit(TextSurf, TextRect)
+            texto = fonte2_g.render("Score: " + str(distancia_real) + "m", True, white)
+            game_Display.blit(texto, [225,200])
+            distancia_max = fonte2_p.render("High score: " + str(max_points) + "m", True, white)
+            game_Display.blit(distancia_max, [300, 400])
         else:
-            largeText = pygame.font.Font('freesansbold.ttf', 115)
-            TextSurf, TextRect = text_objects('Game Over', largeText, black)
+            largeText = pygame.font.Font('04B.ttf', 60)
+            TextSurf, TextRect = text_objects('Game Over', largeText, red)
             TextRect.center = ((screen_width / 2), (150))
             game_Display.blit(TextSurf, TextRect)
+            texto = fonte2_g.render("Score: " + str(distancia_real) + "m", True, black)
+            game_Display.blit(texto, [225,200])
+            distancia_max = fonte2_p.render("High score: " + str(max_points) + "m", True, black)
+            game_Display.blit(distancia_max, [300, 400])
 
-            largeText = pygame.font.Font('freesansbold.ttf', 115)
-            TextSurf, TextRect = text_objects(points, largeText, black)
-            TextRect.center = ((screen_width / 2), (450))
-            game_Display.blit(TextSurf, TextRect)
 
-        button('Menu', 125, 350, 100, 50, green, bright_green, game_intro)
+
+        button('Menu', 575, 450, 100, 50, blue, bright_blue, game_intro)
+        button('Play', 125, 450, 100, 50, green, bright_green, game_loop)
 
         pygame.display.update()
         clock.tick(15)
@@ -246,6 +255,7 @@ def game_high_score(points):
 def game_loop():
 
     global pause
+    global max_points
 
     #Váriaveis dino
 
@@ -271,11 +281,11 @@ def game_loop():
     
     #Cenário
     
-    scene = ("1.jpg","2.jpg","3.jpg","4.jpg","5.jpg","6.jpg")
+    scene = ("1.jpg","1.jpg","2.jpg","2.jpg","3.jpg","3.jpg","4.jpg","4.jpg","5.jpg","5.jpg","6.jpg","6.jpg")
     scene_count = 0
     scene = pygame.image.load(os.path.join("images", scene[scene_count]))
 
-    floor = ("floor1.jpg","floor2.jpg","floor3.jpg","floor4.jpg","floor5.jpg","floor6.jpg")
+    floor = ("floor1.jpg","floor1.jpg","floor2.jpg","floor2.jpg","floor3.jpg","floor3.jpg","floor4.jpg","floor4.jpg","floor5.jpg","floor5.jpg","floor6.jpg","floor6.jpg")
     floor_count = 0
     floor = pygame.image.load(os.path.join("floor", floor[floor_count]))
     x_floor = 0
@@ -315,6 +325,7 @@ def game_loop():
     
     while True:
         seconds = str(int((pygame.time.get_ticks()-start_ticks)/100))
+        distancia = str(int((pygame.time.get_ticks()-start_ticks)/1000))
         points = int(seconds)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -347,17 +358,17 @@ def game_loop():
         #Levels
 
         if points%100 == 0 and points > 0:
-            scene = ("1.jpg","2.jpg","3.jpg","4.jpg","5.jpg","6.jpg")
+            scene = ("1.jpg", "1.jpg","2.jpg","2.jpg","3.jpg","3.jpg","4.jpg","4.jpg","5.jpg","5.jpg","6.jpg","6.jpg")
             scene_count += 1
-            if scene_count > 5:
+            if scene_count > 11:
                 scene_count = 0
             scene = pygame.image.load(os.path.join("images", scene[scene_count]))
             
-            floor = ("floor1.jpg","floor2.jpg","floor3.jpg","floor4.jpg","floor5.jpg","floor6.jpg")
+            floor = ("floor1.jpg","floor1.jpg","floor2.jpg","floor2.jpg","floor3.jpg","floor3.jpg","floor4.jpg","floor4.jpg","floor5.jpg","floor5.jpg","floor6.jpg","floor6.jpg")
             floor_count += 1
-            if floor_count > 5:
+            if floor_count > 11:
                 floor_count = 0
-            if floor_count == 5:
+            if floor_count == 10 or floor_count == 11:
                 y_floor = 458
             else:
                 y_floor = 473
@@ -475,19 +486,12 @@ def game_loop():
                     x_triceratops = 900
                     dinossauro_3 = random.randint(0,10)
                     game_Display.blit(triceratops, (x_triceratops, y_trice))
-                x_triceratops -= triceratops_speed   
-
-        if scene_count == 5:
-            largeText = pygame.font.Font('freesansbold.ttf', 30)
-            TextSurf, TextRect = text_objects(seconds, largeText, white)
-            TextRect.center = (50, 30)
-            game_Display.blit(TextSurf, TextRect)
-        else:
-            largeText = pygame.font.Font('freesansbold.ttf', 30)
-            TextSurf, TextRect = text_objects(seconds, largeText, black)
-            TextRect.center = (50, 30)
-            game_Display.blit(TextSurf, TextRect)
-
+                x_triceratops -= triceratops_speed
+        elif points >= 800:
+            triceratops_speed = 100
+            estego_speed = 60
+            ptero_speed = 100
+                
         #Colisão
         if rectDino.colliderect(rectEstego):
             game_high_score(points)
@@ -495,12 +499,23 @@ def game_loop():
             game_high_score(points)
         if rectDino.colliderect(rectTriceratops):
             game_high_score(points)
-                
-        
+
+        #Distancia Max
+        if int(distancia) > int(max_points):
+            max_points = distancia
+
+        #Pontos
+        if scene_count == 10 or scene_count == 11:
+            texto = fonte2_m.render("Distancia: " + str(distancia) + "m", True, white)
+            game_Display.blit(texto, [10,30])
+            distancia_max = fonte2_p.render("High score: " + str(max_points) + "m", True, white)
+            game_Display.blit(distancia_max, [10,60])
+        else:
+            texto = fonte2_m.render("Distancia: " + str(distancia) + "m", True, black)
+            game_Display.blit(texto, [10,30])
+            distancia_max = fonte2_p.render("High score: " + str(max_points) + "m", True, black)
+            game_Display.blit(distancia_max, [10,60])
         
         pygame.display.update()
-        clock.tick(timer)
-        
-                
-
+        clock.tick(timer) 
 game_intro()
