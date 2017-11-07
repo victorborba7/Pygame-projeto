@@ -234,7 +234,7 @@ def game_high_score(distancia):
 
         if scene_random == 5:
             largeText = pygame.font.Font('04B.ttf', 60)
-            TextSurf, TextRect = text_objects('Game Over', largeText, red)
+            TextSurf, TextRect = text_objects('Game Over', largeText, laranja)
             TextRect.center = ((screen_width / 2), (150))
             game_Display.blit(TextSurf, TextRect)
             texto = fonte2_g.render("Score: " + str(distancia_real) + "m", True, white)
@@ -243,7 +243,7 @@ def game_high_score(distancia):
             game_Display.blit(distancia_max, [300, 400])
         else:
             largeText = pygame.font.Font('04B.ttf', 60)
-            TextSurf, TextRect = text_objects('Game Over', largeText, red)
+            TextSurf, TextRect = text_objects('Game Over', largeText, laranja)
             TextRect.center = ((screen_width / 2), (150))
             game_Display.blit(TextSurf, TextRect)
             texto = fonte2_g.render("Score: " + str(distancia_real) + "m", True, black)
